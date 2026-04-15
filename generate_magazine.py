@@ -252,7 +252,7 @@ def sp6(s: dict) -> str:
   <div style="display:flex;align-items:baseline;gap:1.5rem;border-bottom:2px solid #111;padding-bottom:1.2rem;margin-bottom:2.5rem;flex-wrap:wrap">
     <span style="font-family:var(--serif);font-weight:900;font-size:clamp(4rem,8vw,6.5rem);line-height:1;color:#111">VI</span>
     <div>
-      <div style="font-family:var(--sans);font-size:0.58rem;letter-spacing:0.25em;text-transform:uppercase;color:#666;margin-bottom:0.4rem">{s["category"]} · {s["score"]} votes · {s["comments"]} comments</div>
+      <div style="font-family:var(--sans);font-size:0.58rem;letter-spacing:0.25em;text-transform:uppercase;color:#666;margin-bottom:0.4rem">{s["category"]} · {s["score"]} votes · {s.get("comments", 0)} comments</div>
       {flag_el() if s.get("flagged") else ""}
     </div>
   </div>

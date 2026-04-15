@@ -62,8 +62,8 @@ def curate(stories: list[dict]) -> dict:
 Date: {today}
 
 MY TASTE:
-  LOVE: AI tools/models/research, LLM releases, cybersecurity, weird science, health optimization/longevity, space tech, actionable dev tools, frontier breakthroughs
-  LIKE: tech-adjacent economics, open source releases, productivity, geopolitics affecting tech
+  LOVE: early stage startup opportunities, pre-seed founders, AI tools/models/research, LLM releases, cybersecurity, weird science, health optimization/longevity, space tech, actionable dev tools, frontier breakthroughs
+  LIKE: tech-adjacent economics, geopolitics affecting tech, health and wellness
   SKIP: pure biotech/pharma, politics, sports, celebrity, real estate, pure finance without tech angle
 
 CANDIDATE STORIES ({len(stories)} total):

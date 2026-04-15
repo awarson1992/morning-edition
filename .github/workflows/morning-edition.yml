@@ -1,0 +1,46 @@
+name: 📰 Morning Edition
+
+on:
+  schedule:
+    #  7:00 AM PDT (UTC-7) = 14:00 UTC  ← summer / daylight saving (Mar–Nov)
+    #  Switch to '0 15 * * *' Nov–Mar for PST (UTC-8)
+    - cron: '0 14 * * *'
+  workflow_dispatch:   # lets you trigger manually from the Actions tab
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to push the new HTML file
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}   # personal access token with repo scope
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate today's magazine
+        env:
+          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_PAGES_URL:   https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: python generate_magazine.py
+
+      - name: Commit and push issue
+        run: |
+          git config user.name  "Morning Edition Bot"
+          git config user.email "morning-edition@users.noreply.github.com"
+          git add magazines/
+          # Only commit if something changed
+          git diff --cached --quiet || git commit -m "📰 Morning Edition $(date -u +'%Y-%m-%d')"
+          git push
